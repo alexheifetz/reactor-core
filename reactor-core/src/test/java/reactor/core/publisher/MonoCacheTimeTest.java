@@ -25,6 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.Test;
 
 import reactor.core.Disposable;
+import reactor.core.Scannable;
 import reactor.core.scheduler.Schedulers;
 import reactor.test.StepVerifier;
 import reactor.test.publisher.MonoOperatorTest;
@@ -833,6 +834,17 @@ public class MonoCacheTimeTest extends MonoOperatorTest<String, String> {
 		          .expectNext(1, 2, 3, 4, 5, 6)
 		          .verifyComplete();
 		assertThat(virtualTimeScheduler.getScheduledTaskCount()).isZero().as("once cache skipped scheduled count");
+	}
+
+	@Test
+	public void scanOperator(){
+		AtomicInteger source = new AtomicInteger();
+		Mono<Integer> sourceMono = Mono.fromCallable(source::incrementAndGet);
+
+		VirtualTimeScheduler virtualTimeScheduler = VirtualTimeScheduler.create();
+		Mono<Integer> test = new MonoCacheTime<>(sourceMono, Duration.ZERO, virtualTimeScheduler);
+
+//		assertThat(test.scan(Scannable.Attr.THREAD_MODIFIER)).isTrue();
 	}
 
 }

@@ -1095,7 +1095,7 @@ final class FluxReplay<T> extends ConnectableFlux<T> implements Scannable, Fusea
 		if (key == Attr.PREFETCH) return getPrefetch();
 		if (key == Attr.PARENT) return source;
 		if (key == Attr.RUN_ON) return scheduler;
-
+		if (key == Attr.THREAD_MODIFIER) return true;
 		return null;
 	}
 
@@ -1307,7 +1307,7 @@ final class FluxReplay<T> extends ConnectableFlux<T> implements Scannable, Fusea
 			if (key == Attr.BUFFERED) return buffer.size();
 			if (key == Attr.TERMINATED) return isTerminated();
 			if (key == Attr.CANCELLED) return cancelled;
-
+			if (key == Attr.THREAD_MODIFIER) return true;
 			return null;
 		}
 
@@ -1376,7 +1376,7 @@ final class FluxReplay<T> extends ConnectableFlux<T> implements Scannable, Fusea
 			if (key == Attr.CANCELLED) return isCancelled();
 			if (key == Attr.REQUESTED_FROM_DOWNSTREAM) return Math.max(0L, requested);
 			if (key == Attr.RUN_ON) return parent.parent.scheduler;
-
+			if (key == Attr.THREAD_MODIFIER) return true;
 			return ReplaySubscription.super.scanUnsafe(key);
 		}
 

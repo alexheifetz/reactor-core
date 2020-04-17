@@ -349,6 +349,7 @@ class MonoCacheTime<T> extends MonoOperator<T, T> implements Runnable {
 		@Nullable
 		@Override
 		public Object scanUnsafe(Attr key) {
+			if (key == Attr.THREAD_MODIFIER) return true;
 			return null;
 		}
 
